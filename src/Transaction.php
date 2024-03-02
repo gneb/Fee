@@ -22,7 +22,7 @@ class Transaction
         $this->currency = $currency;
     }
 
-    public static function add(Transaction $transaction)
+    public static function add(Transaction $transaction): void
     {
         self::$transactions[] = $transaction;
     }
@@ -32,7 +32,7 @@ class Transaction
         return $this->client;
     }
 
-    public function getTransactionsByCleint(Client $client)
+    public function getTransactionsByCleint(Client $client): array
     {
         return array_filter(self::$transactions, function($transaction) use($client) { return $transaction->getClient()->getId() === $client->getId(); });
     }

@@ -22,17 +22,17 @@ class Client
         return $this->id;
     }
 
-    public function getTransactions()
+    public function getTransactions(): array
     {
         return Transaction::getTransactionsByCleint($this);
     }
 
-    public function addTransaction(Transaction $transaction)
+    public function addTransaction(Transaction $transaction): void
     {
         $this->transactions[] = $transaction;
     }
 
-    public static function add(Client $client)
+    public static function add(Client $client): void
     {
         if(!array_filter(self::$clients, function($user) use($client) { return $user->getId() === $client->getId(); })){
             self::$clients[] = $client;
