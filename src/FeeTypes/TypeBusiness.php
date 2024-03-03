@@ -4,10 +4,8 @@ namespace Gneb\Fee\FeeTypes;
 
 use Gneb\Fee\ComissionFeeInterface;
 
-class Business implements ComissionFeeInterface
+class TypeBusiness implements ComissionFeeInterface
 {
-    public const TYPE = 'business';
-
     public function getDepositFee()
     {
         return 0.03;
