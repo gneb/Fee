@@ -4,8 +4,8 @@ namespace Gneb\Fee;
 
 interface ComissionFeeInterface
 {
-    public function getDepositFee();
+    public function getDepositFee(): float;
 
-    public function getWithdrawFee();
+    public function getWithdrawFee(): float;
 
 }
