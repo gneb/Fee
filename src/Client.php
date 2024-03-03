@@ -6,20 +6,26 @@ use Gneb\Fee\Transaction;
 class Client
 {
     private int $id;
-    private string $type;
+    private ComissionFeeInterface $type;
     private static array $clients = [];
     private $transactions;
 
     public function __construct(int $id, string $type)
     {
         $this->id = $id;
-        $this->type = $type;
+        $targetType = '\\Gneb\\Fee\\FeeTypes\\Type' . ucfirst(strtolower($type));
+        $this->type = new $targetType();
         $this->transactions = [];
     }
 
     public function getId(): int
     {
         return $this->id;
+    }
+
+    public function getType()
+    {
+        return $this->type;
     }
 
     public function getTransactions(): array
