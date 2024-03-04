@@ -16,6 +16,7 @@ use Gneb\Fee\Transaction;
 use League\Csv\Reader;
 use League\Csv\Statement;
 use Gneb\Fee\Helpers\File;
+use Gneb\Fee\Helpers\Money;
 
 // check if csv file exists
 $file = File::checkFileOrExit($argv[1]);
@@ -35,10 +36,13 @@ $clients = [];
  */
  foreach ($csv as $key => $value) {
     $client = new Client((int)$value[1], $value[2]);
-    $transaction = new Transaction($client, $value[0], $value[3], (float)$value[4], $value[5]);
+    $transaction = new Transaction($client, $key, $value[0], $value[3], (float)$value[4], $value[5]);
     Transaction::add($transaction);
     Client::add($client);
 }
-echo "<pre>";
-print_r(Client::getAll()[0]->getTransactions());
-// $fee =?
+
+
+
+foreach (Transaction::getAll() as $transaction) {
+    echo Money::format($transaction->getFee()) . PHP_EOL;
+}

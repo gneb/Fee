@@ -2,6 +2,8 @@
 
 namespace Gneb\Fee;
 use Gneb\Fee\Transaction;
+use Gneb\Fee\Helpers\File;
+use Gneb\Fee\Helpers\Entity;
 
 class Client
 {
@@ -13,8 +15,8 @@ class Client
     public function __construct(int $id, string $type)
     {
         $this->id = $id;
-        $targetType = '\\Gneb\\Fee\\FeeTypes\\Type' . ucfirst(strtolower($type));
-        $this->type = new $targetType();
+        $targetType = Entity::checkClassOrExit('\\Gneb\\Fee\\Types\Client\\Type' . ucfirst(strtolower($type)));
+        $this->type = new $targetType($this);
         $this->transactions = [];
     }
 

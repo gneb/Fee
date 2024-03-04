@@ -6,6 +6,7 @@ use Gneb\Fee\Client;
 
 class Transaction
 {
+    private int $id;
     private Client $client;
     private string $date;
     private string $type;
@@ -13,8 +14,9 @@ class Transaction
     private string $currency;
     private static array $transactions = [];
 
-    public function __construct(Client $client, string $date, string $type, float $amount, string $currency)
+    public function __construct(Client $client, int $id, string $date, string $type, float $amount, string $currency)
     {
+        $this->id = $id;
         $this->client = $client;
         $this->date = $date;
         $this->type = $type;
@@ -27,9 +29,55 @@ class Transaction
         self::$transactions[] = $transaction;
     }
 
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function getDate(): string
+    {
+        return $this->date;
+    }
+
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    public function getAmount(): float
+    {
+        return $this->amount;
+    }
+
+    public function getCurrency(): string
+    {
+        return $this->currency;
+    }
+
+    public static function getAll(): array
+    {
+        return self::$transactions;
+    }
+
     public function getClient(): Client
     {
         return $this->client;
+    }
+
+    public function getFee(): float
+    {
+        $typeName = 'get' . ucfirst(strtolower($this->type)) . 'Fee';
+        return $this->client->getType()->$typeName($this);
+    }
+
+    public function getWithdrawFee(): float
+    {
+        return $this->client->getType()->getWithdrawFee($this);
+    }
+
+    public function getDepositFee(): float
+    {
+        return $this->client->getType()->getDepositFee($this);
     }
 
     public function getTransactionsByCleint(Client $client): array
