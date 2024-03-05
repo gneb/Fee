@@ -21,6 +21,12 @@ use Gneb\Fee\Service\GetExchangeRates;
 // load .evn variables
 $ENV = parse_ini_file(File::checkFileOrExit('.env'));
 
+// check for file parameter
+if(!isset($argv[1])){
+    echo "file name must be provided. example: php index.php input.csv" . PHP_EOL;
+    exit;
+}
+
 // check if csv file exists
 $file = File::checkFileOrExit($argv[1] ?? null);
 
