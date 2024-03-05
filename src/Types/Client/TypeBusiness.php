@@ -10,12 +10,14 @@ class TypeBusiness implements ComissionFeeInterface
 {
     public function getDepositFee(Transaction $transaction): float
     {
-        return Money::feeRound($transaction->getAmount() * 0.03 / 100);
+        global $ENV;
+        return Money::feeRound($transaction->getAmount() * $ENV['PERCENT_BUSINESS_DEPOSIT_FEE'] / 100);
     }
 
     public function getWithdrawFee(Transaction $transaction): float
     {
-        return Money::feeRound($transaction->getAmount() * 0.5 / 100);
+        global $ENV;
+        return Money::feeRound($transaction->getAmount() * $ENV['PERCENT_BUSINESS_WITHDRAW_FEE'] / 100);
 
     }
 }
