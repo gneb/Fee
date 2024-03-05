@@ -1,11 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Gneb\Fee\Helpers;
+
 use Gneb\Fee\Transaction;
 
-class Money 
+class Money
 {
-    public static function getEur(Transaction $transaction): float
+    public static function getDefaultForExchangeRate(Transaction $transaction): float
     {
         $amount = $transaction->getAmount() / Transaction::getExchangeRateOf($transaction->getCurrency());
 
@@ -19,6 +22,6 @@ class Money
 
     public static function format($number): string
     {
-        return number_format((float)$number, 2, '.', '');
+        return number_format((float) $number, 2, '.', '');
     }
 }

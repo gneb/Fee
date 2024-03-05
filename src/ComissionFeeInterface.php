@@ -1,7 +1,8 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Gneb\Fee;
-use Gneb\Fee\Transaction;
 
 interface ComissionFeeInterface
 {

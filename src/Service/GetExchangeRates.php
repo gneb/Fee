@@ -1,14 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Gneb\Fee\Service;
 
-use Gneb\Fee\Helpers\Fetch;
 use Gneb\Fee\Config;
+use Gneb\Fee\Helpers\Fetch;
 
-class GetExchangeRates 
+class GetExchangeRates
 {
     public static function execute()
     {
-        return Fetch::get("{Config::get('EXCHANGE_RATE_API_URL')}/v1/latest?access_key={Config::get('EXCHANGE_RATE_API_KEY')}&base={Config::get('EXCHANGE_RATE_BASE_CURRENCY')}");
+        $url = sprintf('%s/v1/latest?access_key=%s&base=%s',
+            Config::get('EXCHANGE_RATE_API_URL'),
+            Config::get('EXCHANGE_RATE_API_KEY'),
+            Config::get('EXCHANGE_RATE_BASE_CURRENCY')
+        );
+
+        return Fetch::get($url);
     }
 }

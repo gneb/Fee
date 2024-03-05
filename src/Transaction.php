@@ -1,8 +1,8 @@
 <?php
 
-namespace Gneb\Fee;
+declare(strict_types=1);
 
-use Gneb\Fee\Client;
+namespace Gneb\Fee;
 
 class Transaction
 {
@@ -37,10 +37,11 @@ class Transaction
 
     public static function getExchangeRateOf(string $currency): float
     {
-        if(!isset(self::$exchangeRates->$currency)){
+        if (!isset(self::$exchangeRates->$currency)) {
             echo "currently {$currency} currency is not supported.";
             exit;
         }
+
         return self::$exchangeRates->$currency;
     }
 
@@ -81,7 +82,8 @@ class Transaction
 
     public function getFee(): float
     {
-        $typeName = 'get' . ucfirst(strtolower($this->type)) . 'Fee';
+        $typeName = 'get'.ucfirst(strtolower($this->type)).'Fee';
+
         return $this->client->getType()->$typeName($this);
     }
 
@@ -97,6 +99,6 @@ class Transaction
 
     public function getTransactionsByCleint(Client $client): array
     {
-        return array_filter(self::$transactions, function($transaction) use($client) { return $transaction->getClient()->getId() === $client->getId(); });
+        return array_filter(self::$transactions, function ($transaction) use ($client) { return $transaction->getClient()->getId() === $client->getId(); });
     }
 }

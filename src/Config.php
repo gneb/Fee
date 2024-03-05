@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Gneb\Fee;
 
 class Config
@@ -8,10 +10,11 @@ class Config
     {
         global $ENV;
         $target = $ENV[$name];
-        if(!isset($target)){
+        if (!isset($target)) {
             echo "config {$name} does not exists";
             exit;
         }
+
         return $target;
     }
 }
