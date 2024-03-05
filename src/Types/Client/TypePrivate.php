@@ -7,18 +7,17 @@ use Gneb\Fee\ComissionFeeInterface;
 use Gneb\Fee\Transaction;
 use Gneb\Fee\Helpers\GDate;
 use Gneb\Fee\Helpers\Money;
+use Gneb\Fee\Config;
 
 class TypePrivate implements ComissionFeeInterface
 {
     public function getDepositFee(Transaction $transaction): float
     {
-        global $ENV;
-        return Money::feeRound($transaction->getAmount() * $ENV['PERCENT_PRIVATE_DEPOSIT_FEE'] / 100);
+        return Money::feeRound($transaction->getAmount() * Config::get('PERCENT_PRIVATE_DEPOSIT_FEE') / 100);
     }
 
     public function getWithdrawFee(Transaction $transaction): float
     {
-        global $ENV;
         // get monday of transaction week
         $monday = strtotime('last monday', strtotime($transaction->getDate()));
         // all client transactions
@@ -38,13 +37,13 @@ class TypePrivate implements ComissionFeeInterface
 
         $current = $transaction->getAmount();
 
-        $t = $ENV['FREE_LIMIT_IN_EURO'];
+        $t = Config::get('FREE_LIMIT_IN_EURO');
         $t = $t * Transaction::getExchangeRateOf($transaction->getCurrency());
 
-        if(count($weekTransactions) < $ENV['FREE_WEEKLY_TRANSACTIONS_NUMBER'] && $t >= $sumOfWeekTransactions){
+        if(count($weekTransactions) < Config::get('FREE_WEEKLY_TRANSACTIONS_NUMBER') && $t >= $sumOfWeekTransactions){
             $current = $current - ($t - $sumOfWeekTransactions);
             $current = $current < 0 ? 0 : $current;
         }
-        return Money::feeRound($current * $ENV['PERCENT_PRIVATE_WITHDRAW_FEE'] / 100);
+        return Money::feeRound($current * Config::get('PERCENT_PRIVATE_WITHDRAW_FEE') / 100);
     }
 }
