@@ -13,6 +13,7 @@ class Transaction
     private float $amount;
     private string $currency;
     private static array $transactions = [];
+    private static $exchangeRates = null;
 
     public function __construct(Client $client, int $id, string $date, string $type, float $amount, string $currency)
     {
@@ -27,6 +28,20 @@ class Transaction
     public static function add(Transaction $transaction): void
     {
         self::$transactions[] = $transaction;
+    }
+
+    public static function setExchangeRates(object $rates): void
+    {
+        self::$exchangeRates = $rates;
+    }
+
+    public static function getExchangeRateOf(string $currency): float
+    {
+        if(!isset(self::$exchangeRates->$currency)){
+            echo "currently {$currency} currency is not supported.";
+            exit;
+        }
+        return self::$exchangeRates->$currency;
     }
 
     public function getId(): int
@@ -70,12 +85,12 @@ class Transaction
         return $this->client->getType()->$typeName($this);
     }
 
-    public function getWithdrawFee(): float
+    private function getWithdrawFee(): float
     {
         return $this->client->getType()->getWithdrawFee($this);
     }
 
-    public function getDepositFee(): float
+    private function getDepositFee(): float
     {
         return $this->client->getType()->getDepositFee($this);
     }
