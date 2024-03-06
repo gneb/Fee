@@ -34,7 +34,7 @@ class ClientTest extends TestCase
     }
 
     /**
-     * @param int $expectation
+     * @param TypePrivate $expectation
      *
      * @dataProvider dataProviderForType
      */
@@ -49,7 +49,7 @@ class ClientTest extends TestCase
     public function dataProviderForId(): array
     {
         return [
-            'test id 1' => [1],
+            'test id' => [1],
         ];
     }
 
