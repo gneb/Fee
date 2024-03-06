@@ -38,6 +38,9 @@ $csv = iterator_to_array(Reader::createFromPath($file, 'r'));
 // get exchange rates
 $rates = GetExchangeRates::execute();
 
+// dump rates
+// $rates = json_decode('{"rates": {"EUR": 1, "USD": 1.1497, "JPY": 129.53}}');
+
 // set rates inside Transaction class static property
 Transaction::setExchangeRates($rates->rates);
 

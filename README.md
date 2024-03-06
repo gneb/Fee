@@ -22,6 +22,7 @@ this is simple project to demonstrate calculation of fees based on client/transa
 
 - rename or create copy of ```.env.example``` file in same dir.
 - get your api key from ```exchangeratesapi.io```  and assign it to ```EXCHANGE_RATE_API_KEY``` inside ```.env```
+- if you do not have api key or too lazy to register there which requires your credit card entered, you can uncomment ```line 42``` in ```index.php``` and comment ```line 39```. in this case if modify ```input.csv``` file with more currencies, please add that currencies in ```line 42``` too
 
 ## running
 
