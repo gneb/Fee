@@ -12,30 +12,11 @@ use Gneb\Fee\Helpers\File;
 
 class TransactionTest extends TestCase
 {
-    /**
-     * @var Transaction
-     */
-    private $transaction;
-    /**
-     * @var Client
-     */
-    private $client;
-
-    /**
-     * @var int
-     */
-    private $clientId;
-
-    /**
-     * @var int
-     */
-    private $transactionId;
-
     public function setUp()
     {
         global $ENV;
         $ENV = parse_ini_file(File::checkFileOrExit('.env'));
-        Transaction::setExchangeRates(json_decode('{"EUR": 1, "JPY": 2}'));
+        Transaction::setExchangeRates(json_decode('{"rates": {"EUR": 1, "USD": 1.1497, "JPY": 129.53}}'));
 
         // add transaction #1
         $client = new Client(1, 'private');
