@@ -29,19 +29,18 @@ class TypePrivate implements ComissionFeeInterface
                     && $itemTransaction->getDate() >= date('Y-m-d', $monday)
                     && $itemTransaction->getId() < $transaction->getId();
         });
-
         // sum of previous transactions of week in eur
         $sumOfWeekTransactions = array_reduce($weekTransactions, function ($sum, $item) {
             return $sum += Money::getDefaultForExchangeRate($item);
         });
-
         $current = $transaction->getAmount();
 
-        $t = Config::get('FREE_LIMIT_IN_EURO');
+        $t = Config::get('FREE_LIMIT_AMOUNT');
+        // free limit in transaction currency
         $t = $t * Transaction::getExchangeRateOf($transaction->getCurrency());
 
-        if (count($weekTransactions) < Config::get('FREE_WEEKLY_TRANSACTIONS_NUMBER') && $t >= $sumOfWeekTransactions) {
-            $current = $current - ($t - $sumOfWeekTransactions);
+        if (count($weekTransactions) < Config::get('FREE_WEEKLY_TRANSACTIONS_NUMBER') && $sumOfWeekTransactions < Config::get('FREE_LIMIT_AMOUNT')) {
+            $current = $current - ($t - ($sumOfWeekTransactions * Transaction::getExchangeRateOf($transaction->getCurrency())));
             $current = $current < 0 ? 0 : $current;
         }
 
